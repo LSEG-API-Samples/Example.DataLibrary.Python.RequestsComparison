@@ -63,6 +63,8 @@ if __name__ == '__main__':
         if access_token:
             print(f'Access Token: {access_token}')
             print(f'Expires in: {expires_in}')
+            # code to request data
+            
             time.sleep(20)
             print('Sending re-Login request message to RDP')
             access_token, expires_in = login_v2(client_id, client_secret)

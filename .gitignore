@@ -3,3 +3,4 @@ src/__pycache__
 .env
 ldrequestsvenv/
 src/.env
+src/lseg-data.devrel.config.json

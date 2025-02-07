@@ -121,6 +121,7 @@ if __name__ == '__main__':
             print(f'Access Token: {access_token}')
             print(f'Expires in: {expires_in}')
             print(f'Refresh Token: {refresh_token}')
+            # code to request data
             
             time.sleep(20)
             print('Sending refresh Login request message to RDP')
