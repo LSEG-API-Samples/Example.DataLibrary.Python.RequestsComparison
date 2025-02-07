@@ -15,9 +15,7 @@ from dotenv import load_dotenv
 
 scope = 'trapi'
 
-rdp_HOST = 'https://api.refinitiv.com'
-category_URL = '/auth/oauth2'
-service_endpoint_URL = '/token'
+RDP_HOST = 'https://api.refinitiv.com'
 
 access_token = None
 refresh_token = None
@@ -25,10 +23,11 @@ expires_in = 0
 
 
 def login_v2(client_id, client_secret):
+    global RDP_HOST
     if not client_secret or not client_id:
         raise TypeError('Missing required parameters')
 
-    auth_url = f'{rdp_HOST}{category_URL}/v2{service_endpoint_URL}'
+    auth_url = f'{RDP_HOST}/auth/oauth2/v2/token'
 
      # For the Password Grant scenario
     payload=f'client_id={client_id}&client_secret={client_secret}&grant_type=client_credentials&scope={scope}'

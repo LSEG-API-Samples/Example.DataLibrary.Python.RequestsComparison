@@ -10,8 +10,9 @@ import json
 import requests
 import base64
 import time
+from datetime import datetime, timedelta
+from dateutil import tz
 from dotenv import load_dotenv
-
 
 scope = 'trapi'
 
@@ -23,9 +24,10 @@ expires_in = 0
 
 def login_v1(username, password, app_key):
     global RDP_HOST
+
     if not username or not password or not app_key:
         raise TypeError('Missing required parameters')
-
+    
     auth_url = f'{RDP_HOST}/auth/oauth2/v1/token'
 
     # For the Password Grant scenario
@@ -49,36 +51,8 @@ def login_v1(username, password, app_key):
         print(f'Text: {response.text}')
         raise requests.exceptions.HTTPError(f'RDP authentication failure: {response.status_code} - {response.text} ', response = response )
     
-def refresh_login_v1(refresh_token, app_key):
-    global RDP_HOST
-    if not refresh_token or not app_key:
-        raise TypeError('Missing required parameters')
-    
-    auth_url = f'{RDP_HOST}/auth/oauth2/v1/token'
-
-    # For the Refresh Grant scenario
-    payload=f'grant_type=refresh_token&client_id={app_key}&refresh_token={refresh_token}'
-
-    try:
-       response = requests.post(auth_url, 
-                                 data=payload, 
-                                 headers={'Content-Type': 'application/x-www-form-urlencoded'},
-                                 verify=True,
-                                 allow_redirects=False)
-    except requests.exceptions.RequestException as e:
-        print(f'RDP Authentication Refresh Token exception: {e}')
-        return None, None, None
-    
-    if response.status_code == 200:  # HTTP Status 'OK'
-        print('Authentication success')
-        return response.json()['access_token'], response.json()['refresh_token'], int(response.json()['expires_in'])
-    if response.status_code != 200:
-        print(f'RDP authentication failure: {response.status_code} {response.reason}')
-        print(f'Text: {response.text}')
-        raise requests.exceptions.HTTPError(f'RDP authentication Refresh Token failure: {response.status_code} - {response.text} ', response = response )
-
-    
 def logout(app_key, access_token):
+
     global RDP_HOST
 
     app_key_bytes = app_key.encode('ascii')
@@ -106,12 +80,49 @@ def logout(app_key, access_token):
         print(f'RDP authentication failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
+def get_historical_data(universe, access_token):
+
+    global RDP_HOST
+    # Time Variables
+    yesterday = timedelta(-1)
+
+    # Set start date and timestamp to be yesterday in UTC timezoe and in ISO8601 format
+    start = (datetime.now() + yesterday).astimezone(tz.gettz('UTC')).replace(tzinfo=None)
+    start_iso = start.isoformat(timespec='microseconds') + '000Z' #example value 2020-07-13T08:54:53.619177000Z
+
+
+    # https://api.refinitiv.com/data/historical-pricing/v1/views/events/IBM.N
+    historical_pricing_url = f'{RDP_HOST}/data/historical-pricing/v1/views/events/{universe}'
+
+    payload = {'eventTypes':'trade','adjustments': 'exchangeCorrection,manualCorrection', 'start': start_iso , 'count':15}
+
+
+    try:
+        response = requests.get(url= historical_pricing_url,
+                                headers= {
+                                    'Authorization': f'Bearer {access_token}'
+                                }, 
+                                params= payload,
+                                verify=True,
+                                 allow_redirects=False)
+    except requests.exceptions.RequestException as e:
+        print(f'RDP historical-pricing request exception: {e}')
+
+    if response.status_code == 200:  # HTTP Status 'OK'
+         print('This is a Historical Pricing data result from RDP API Call')
+    print(response.json())
+    if response.status_code != 200:
+        print(f'RDP historical-pricing request  failure: {response.status_code} {response.reason}')
+        print(f'Text: {response.text}')
+
 
 if __name__ == '__main__':
     load_dotenv()  # take environment variables from .env.
     username = os.environ['MACHINE_ID'] 
     password = os.environ['PASSWORD'] 
     app_key = os.environ['APP_KEY'] 
+
+    universe = 'IBM.N'
 
     try:
         print('Sending initial Login request message to RDP')
@@ -124,17 +135,10 @@ if __name__ == '__main__':
             print(f'Refresh Token: {refresh_token}')
             # code to request data
             
-            time.sleep(20)
-            print('Sending refresh Login request message to RDP')
-            access_token, refresh_token, expires_in = refresh_login_v1(refresh_token, app_key)
-            print(f'New Access Token: {access_token}')
+            get_historical_data(universe, access_token)
+            
             time.sleep(20)
             print('Sending Logout request message to RDP')
             logout(app_key, access_token)
     except Exception as exp:
         print(f'Exception {exp}')
-
-        
-
-    
-        
