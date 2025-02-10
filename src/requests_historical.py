@@ -10,8 +10,6 @@ import json
 import requests
 import base64
 import time
-from datetime import datetime, timedelta
-from dateutil import tz
 from dotenv import load_dotenv
 
 scope = 'trapi'
@@ -83,19 +81,18 @@ def logout(app_key, access_token):
 def get_historical_data(universe, access_token):
 
     global RDP_HOST
-    # Time Variables
-    yesterday = timedelta(-1)
+    interval = 'P1W' #weekly
+    start_day = '2025-01-01'
+    end_day = '2025-02-10'
 
-    # Set start date and timestamp to be yesterday in UTC timezoe and in ISO8601 format
-    start = (datetime.now() + yesterday).astimezone(tz.gettz('UTC')).replace(tzinfo=None)
-    start_iso = start.isoformat(timespec='microseconds') + '000Z' #example value 2020-07-13T08:54:53.619177000Z
+    # https://api.refinitiv.com/data/historical-pricing/v1/views/interday-summaries/IBM.N
+    historical_pricing_url = f'{RDP_HOST}/data/historical-pricing/v1/views/interday-summaries/{universe}'
 
-
-    # https://api.refinitiv.com/data/historical-pricing/v1/views/events/IBM.N
-    historical_pricing_url = f'{RDP_HOST}/data/historical-pricing/v1/views/events/{universe}'
-
-    payload = {'eventTypes':'trade','adjustments': 'exchangeCorrection,manualCorrection', 'start': start_iso , 'count':15}
-
+    payload = {'interval': interval, 
+               'count':15,
+               'fields':'BID,ASK,OPEN_PRC,HIGH_1,LOW_1,TRDPRC_1,NUM_MOVES,TRNOVR_UNS',
+               'start':start_day,
+               'end':end_day}
 
     try:
         response = requests.get(url= historical_pricing_url,
@@ -109,8 +106,8 @@ def get_historical_data(universe, access_token):
         print(f'RDP historical-pricing request exception: {e}')
 
     if response.status_code == 200:  # HTTP Status 'OK'
-         print('This is a Historical Pricing data result from RDP API Call')
-    print(response.json())
+        print('This is a Historical Pricing data result from RDP API Call')
+        print(response.json())
     if response.status_code != 200:
         print(f'RDP historical-pricing request  failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
