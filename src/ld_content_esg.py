@@ -6,26 +6,19 @@
 # |-----------------------------------------------------------------------------
 
 import lseg.data as ld
+from lseg.data.content import esg
 from lseg.data import session
 
-def get_historical_data(universe, fields):
-    # Time Variables
-    interval = 'weekly' #weekly
-    start_day = '2025-01-01'
-    end_day = '2025-02-10'
+def get_esg_standard(universe):
 
-    df = ld.get_history(universe=universe,
-                        interval=interval, 
-                        fields=fields,
-                        count=15,
-                        start=start_day,
-                        end= end_day)
-    print('This is a Historical Pricing data result from Data Library - get_history() method')
-    print(df)
+    response = esg.standard_scores.Definition(universe).get_data()
+
+    print('This is an ESG data result from Data Library - Content Layer - esg.standard_scores')
+    print(response.data.df)
 
 if __name__ == '__main__':
     universe = 'IBM.N'
-    fields=['BID','ASK','OPEN_PRC','HIGH_1','LOW_1','TRDPRC_1','NUM_MOVES','TRNOVR_UNS']
+
     try:
         print('Open Session')
         # Open the data session
@@ -36,7 +29,7 @@ if __name__ == '__main__':
 
         # code to request data
         if str(session.open_state) == 'OpenState.Opened':
-            get_historical_data(universe, fields)
+            get_esg_standard(universe)
 
         print('Close Session')
         session.close()

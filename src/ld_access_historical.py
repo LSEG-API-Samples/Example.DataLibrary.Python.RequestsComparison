@@ -8,42 +8,35 @@
 import lseg.data as ld
 from lseg.data import session
 
-def get_news_headlines(universe):
-
+def get_historical_interday_data(universe, fields):
+    # Time Variables
+    interval = 'weekly' #weekly
     start_day = '2025-01-01'
     end_day = '2025-02-10'
 
-    query = f'R:{universe} AND Language:LEN AND Source:RTRS'
-
-    df = ld.news.get_headlines(query, start=start_day, end=end_day, count=5)
-
-    print('This is a News headlines from Data Library - Access Layer - get_headlines')
+    df = ld.get_history(universe=universe,
+                        interval=interval, 
+                        fields=fields,
+                        count=15,
+                        start=start_day,
+                        end= end_day)
+    print('This is a Historical Pricing Inter-Day data result from Data Library - Access Layer - get_history method')
     print(df)
-    return df
-
-def get_news_story(story_id):
-
-    story = ld.news.get_story(story_id, format=ld.news.Format.TEXT)
-    print(f'This is a News story from Data Library - Access Layer - get_story for {story_id}')
-    print(story)
 
 if __name__ == '__main__':
     universe = 'IBM.N'
-
+    fields=['BID','ASK','OPEN_PRC','HIGH_1','LOW_1','TRDPRC_1','NUM_MOVES','TRNOVR_UNS']
     try:
         print('Open Session')
         # Open the data session
-        #ld.open_session()
-        ld.open_session(config_name='./lseg-data.devrel.config.json')
+        ld.open_session()
+        #ld.open_session(config_name='./lseg-data.devrel.config.json')
         session = ld.session.Definition().get_session()
         session.open()
 
         # code to request data
         if str(session.open_state) == 'OpenState.Opened':
-            headlines = get_news_headlines(universe)
-            story_id = headlines.iloc[-1]['storyId']
-            print()
-            get_news_story(story_id)
+            get_historical_interday_data(universe, fields)
 
         print('Close Session')
         session.close()

@@ -78,7 +78,7 @@ def logout(app_key, access_token):
         print(f'RDP authentication failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
-def get_historical_data(universe, access_token):
+def get_historical_interday_data(universe, access_token):
 
     global RDP_HOST
     interval = 'P1W' #weekly
@@ -106,10 +106,10 @@ def get_historical_data(universe, access_token):
         print(f'RDP historical-pricing request exception: {e}')
 
     if response.status_code == 200:  # HTTP Status 'OK'
-        print('This is a Historical Pricing data result from RDP API Call')
+        print('This is a Historical Pricing Inter-Day data result from RDP API Call')
         print(response.json())
     if response.status_code != 200:
-        print(f'RDP historical-pricing request  failure: {response.status_code} {response.reason}')
+        print(f'RDP historical-pricing Inter-Day request failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
             #print(f'Refresh Token: {refresh_token}')
             # code to request data
             
-            get_historical_data(universe, access_token)
+            get_historical_interday_data(universe, access_token)
             
             time.sleep(20)
             print('Sending Logout request message to RDP')
