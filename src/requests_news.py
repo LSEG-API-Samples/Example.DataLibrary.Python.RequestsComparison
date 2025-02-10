@@ -78,24 +78,16 @@ def logout(app_key, access_token):
         print(f'RDP authentication failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
-def get_historical_data(universe, access_token):
+def get_news_headlines(universe, access_token):
 
     global RDP_HOST
-    interval = 'P1W' #weekly
-    start_day = '2025-01-01'
-    end_day = '2025-02-10'
 
-    # https://api.refinitiv.com/data/historical-pricing/v1/views/interday-summaries/{{universe}}
-    historical_pricing_url = f'{RDP_HOST}/data/historical-pricing/v1/views/interday-summaries/{universe}'
-
-    payload = {'interval': interval, 
-               'count':15,
-               'fields':'BID,ASK,OPEN_PRC,HIGH_1,LOW_1,TRDPRC_1,NUM_MOVES,TRNOVR_UNS',
-               'start':start_day,
-               'end':end_day}
+    # https://api.refinitiv.com/data/news/v1/headlines?query={{query}}
+    headlines_url = f'{RDP_HOST}/data/news/v1/headlines'
+    payload = {'query': f'R:{universe} AND Language:LEN AND Source:RTRS','limit':5}
 
     try:
-        response = requests.get(url= historical_pricing_url,
+        response = requests.get(url= headlines_url,
                                 headers= {
                                     'Authorization': f'Bearer {access_token}'
                                 }, 
@@ -103,13 +95,38 @@ def get_historical_data(universe, access_token):
                                 verify=True,
                                  allow_redirects=False)
     except requests.exceptions.RequestException as e:
-        print(f'RDP historical-pricing request exception: {e}')
+        print(f'RDP ESG request exception: {e}')
 
     if response.status_code == 200:  # HTTP Status 'OK'
-        print('This is a Historical Pricing data result from RDP API Call')
+        print('This is an News headlines result from RDP API Call')
+        print(response.json())
+        return response.json()
+    if response.status_code != 200:
+        print(f'RDP News request  failure: {response.status_code} {response.reason}')
+        print(f'Text: {response.text}')
+
+def get_news_story(story_id, access_token):
+
+    global RDP_HOST
+
+    # https://api.refinitiv.com/data/news/v1/stories/{{story_id}}
+    story_url = f'{RDP_HOST}/data/news/v1/stories/{story_id}'
+
+    try:
+        response = requests.get(url= story_url,
+                                headers= {
+                                    'Authorization': f'Bearer {access_token}'
+                                }, 
+                                verify=True,
+                                 allow_redirects=False)
+    except requests.exceptions.RequestException as e:
+        print(f'RDP ESG request exception: {e}')
+
+    if response.status_code == 200:  # HTTP Status 'OK'
+        print(f'This is an News story result from RDP API Call for {story_id}')
         print(response.json())
     if response.status_code != 200:
-        print(f'RDP historical-pricing request  failure: {response.status_code} {response.reason}')
+        print(f'RDP News request  failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
 
@@ -132,7 +149,10 @@ if __name__ == '__main__':
             #print(f'Refresh Token: {refresh_token}')
             # code to request data
             
-            get_historical_data(universe, access_token)
+            headlines = get_news_headlines(universe, access_token)
+            story_id = headlines['data'][-1]['storyId']
+            print()
+            get_news_story(story_id, access_token)
             
             time.sleep(20)
             print('Sending Logout request message to RDP')

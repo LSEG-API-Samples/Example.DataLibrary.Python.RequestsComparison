@@ -78,24 +78,16 @@ def logout(app_key, access_token):
         print(f'RDP authentication failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
-def get_historical_data(universe, access_token):
+def get_esg_standard(universe, access_token):
 
     global RDP_HOST
-    interval = 'P1W' #weekly
-    start_day = '2025-01-01'
-    end_day = '2025-02-10'
 
-    # https://api.refinitiv.com/data/historical-pricing/v1/views/interday-summaries/{{universe}}
-    historical_pricing_url = f'{RDP_HOST}/data/historical-pricing/v1/views/interday-summaries/{universe}'
-
-    payload = {'interval': interval, 
-               'count':15,
-               'fields':'BID,ASK,OPEN_PRC,HIGH_1,LOW_1,TRDPRC_1,NUM_MOVES,TRNOVR_UNS',
-               'start':start_day,
-               'end':end_day}
+    # https://{{RDP_HOST}}/data/environmental-social-governance/{{RDP_VERSION_ESG}}/views/scores-standard?universe={{SYMBOL}}
+    esg_url = f'{RDP_HOST}/data/environmental-social-governance/v2/views/scores-standard'
+    payload = {'universe': universe}
 
     try:
-        response = requests.get(url= historical_pricing_url,
+        response = requests.get(url= esg_url,
                                 headers= {
                                     'Authorization': f'Bearer {access_token}'
                                 }, 
@@ -103,13 +95,13 @@ def get_historical_data(universe, access_token):
                                 verify=True,
                                  allow_redirects=False)
     except requests.exceptions.RequestException as e:
-        print(f'RDP historical-pricing request exception: {e}')
+        print(f'RDP ESG request exception: {e}')
 
     if response.status_code == 200:  # HTTP Status 'OK'
-        print('This is a Historical Pricing data result from RDP API Call')
+        print('This is an ESG data result from RDP API Call')
         print(response.json())
     if response.status_code != 200:
-        print(f'RDP historical-pricing request  failure: {response.status_code} {response.reason}')
+        print(f'RDP ESG request  failure: {response.status_code} {response.reason}')
         print(f'Text: {response.text}')
 
 
@@ -132,7 +124,7 @@ if __name__ == '__main__':
             #print(f'Refresh Token: {refresh_token}')
             # code to request data
             
-            get_historical_data(universe, access_token)
+            get_esg_standard(universe, access_token)
             
             time.sleep(20)
             print('Sending Logout request message to RDP')
