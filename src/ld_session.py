@@ -22,7 +22,6 @@ if __name__ == '__main__':
 
         time.sleep(20)
         print('Close Session')
-        session.close()
         ld.close_session()
     except Exception as exp:
         print(f'Exception {exp}')

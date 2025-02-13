@@ -39,7 +39,6 @@ if __name__ == '__main__':
             get_historical_interday_data(universe, fields)
 
         print('Close Session')
-        session.close()
         ld.close_session()
     except Exception as exp:
         print(f'Exception {exp}')

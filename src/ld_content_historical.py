@@ -56,7 +56,6 @@ if __name__ == '__main__':
             get_historical_event_data(universe)
 
         print('Close Session')
-        session.close()
         ld.close_session()
     except Exception as exp:
         print(f'Exception {exp}')

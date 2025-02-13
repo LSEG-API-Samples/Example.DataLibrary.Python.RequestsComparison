@@ -32,7 +32,6 @@ if __name__ == '__main__':
             get_esg_standard(universe)
 
         print('Close Session')
-        session.close()
         ld.close_session()
     except Exception as exp:
         print(f'Exception {exp}')

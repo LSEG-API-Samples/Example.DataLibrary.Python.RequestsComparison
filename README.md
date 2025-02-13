@@ -22,7 +22,7 @@ Note: This article is focusing on **the comparison of how to get data** only. Th
 
 The Data Library provides a set of ease-of-use interfaces offering coders uniform access to the breadth and depth of financial data and services available on the LSEG Data Platform. The Library is designed to provide consistent access through multiple access channels and target both Professional Developers and Financial Coders.
 
-![figure-1](images/data_library_1.png "Data Library diagram explanation")
+![figure-1](images/data_library_1.png "Data Library access points")
 
 The library is available the following programming languages
 
