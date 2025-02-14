@@ -29,7 +29,6 @@ def login_v2(client_id, client_secret):
 
     auth_url = f'{RDP_HOST}/auth/oauth2/v2/token'
 
-     # For the Password Grant scenario
     payload=f'client_id={client_id}&client_secret={client_secret}&grant_type=client_credentials&scope={scope}'
 
     try:

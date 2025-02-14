@@ -14,9 +14,9 @@ def get_analytics_working_day(codes, date):
     analytic_url = 'https://api.refinitiv.com/analytics/functions/v1/common/is-working-day'
 
     payload = {
-        "universe": [{
-                "calendarCodes": codes,
-                "calculationDate": date
+        'universe': [{
+                'calendarCodes': codes,
+                'calculationDate': date
             }]
         }
 

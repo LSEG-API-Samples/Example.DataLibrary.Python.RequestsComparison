@@ -14,6 +14,8 @@ def get_esg_standard(universe):
     response = esg.standard_scores.Definition(universe).get_data()
 
     print('This is an ESG data result from Data Library - Content Layer - esg.standard_scores')
+    # print raw data 
+    #print(response.data)
     print(response.data.df)
 
 if __name__ == '__main__':
