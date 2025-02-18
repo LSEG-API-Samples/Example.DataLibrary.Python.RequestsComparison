@@ -6,7 +6,7 @@
 
 ## <a id="data_library_intro"></a>Introduction to Data Library
 
-The Data Library provides a set of ease-of-use interfaces offering coders uniform access to the breadth and depth of financial data and services available on the LSEG Data Platform. The Library is designed to provide consistent access through multiple access channels and target both Professional Developers and Financial Coders.
+Let’s start with an introduction to the Data Library. The Data Library provides a set of ease-of-use interfaces offering coders uniform access to the breadth and depth of financial data and services available on the LSEG Data Platform. The Library is designed to provide consistent access through multiple access channels and target both Professional Developers and Financial Coders.
 
 ![figure-1](images/data_library_1.png "Data Library access points")
 
@@ -30,15 +30,17 @@ Depending on the skill and comfort level of the developer, the library offers va
 - This project demonstrates with the LSEG Data Library for Python which is the version 2.0.1 of the library (**As of February 2025**)
 - For High performance scenarios, the Real-Time SDK ([C++](https://developers.lseg.com/en/api-catalog/real-time-opnsrc/rt-sdk-cc), [Java](https://developers.lseg.com/en/api-catalog/real-time-opnsrc/rt-sdk-java), [C#](https://developers.lseg.com/en/api-catalog/real-time-opnsrc/rt-sdk-csharp)) and [Real-Time WebSocket API](https://developers.lseg.com/en/api-catalog/real-time-opnsrc/websocket-api) are recommended
 
+That covers the Data Library overview.
+
 ## <a id="authen"></a>Initialize and Authentication
 
-RDP APIs entitlement check is based on OAuth 2.0 specification. The first step of an application work flow is to get a token, which will allow access to the protected resource, i.e. data REST API's.  The RDP currently supports two version of Authentication methods (**As of February 2025**).
+That brings us to working with the RDP APIs platform. RDP APIs entitlement check is based on OAuth 2.0 specification. The first step of an application work flow is to get a token, which will allow access to the protected resource, i.e. data REST API's.  The RDP currently supports two version of Authentication methods (**As of February 2025**).
 
 Both RDP APIs and Data Library PlatformSession applications require the RDP access credential and login process to get data from the platform.
 
-### Authentication Version 1 - Initial Login
+### Version 1 Authentication - Initial Login
 
-The API endpoint **https://api.refinitiv.com/auth/oauth2/v1/token** (please be noticed **v1**) requires the following access credential information:
+So, I will start off with the Version 1 Authentication. The API endpoint **https://api.refinitiv.com/auth/oauth2/v1/token** (please be noticed **v1**) requires the following access credential information:
 
 - Username: The username. 
 - Password: Password associated with the username. .
@@ -151,7 +153,7 @@ if str(session.open_state) == 'OpenState.Opened': # Session is opened successful
 
 Please note that developers can choose to pass an access credential to the Library function directly too. Please see more detail on the [GitHub](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/4-Session) repository.
 
-### Authentication Version 1 - Refresh Login
+### Version 1 Authentication - Refresh Login
 
 Before the session expires (based on the ```expires_in``` parameter, in seconds) , an application needs to send a Refresh Grant request message to RDP Authentication service (**https://api.refinitiv.com/auth/oauth2/v1/token** URL) to get a new access token before further request data from the platform.
 
@@ -190,7 +192,7 @@ Even though the code is the almost same as an initial login request message, an 
 
 With the Data Library, the library automatic maintains the RDP session under the hood for an application as long as an application does not call the close session method explicitly. 
 
-### Authentication Version 1 - Revoke Login
+### Version 1 Authentication - Revoke Login
 
 This revocation mechanism allows an application to invalidate its tokens if the end-user logs out, changes identity, or exits the respective application. Notifying the authorization server that the token is no longer needed allows the authorization server to clean up data associated with that token (e.g., session data) and the underlying authorization grant.
 
@@ -245,9 +247,11 @@ import lseg.data as ld
 ld.close_session()
 ```
 
-### Authentication Version 2 - Initial Login
+Let's leave the Version 1 Authentication there.
 
-The API endpoint **https://api.refinitiv.com/auth/oauth2/v2/token** (please be noticed **v2**) requires the following access credential information:
+### Version 2 Authentication - Initial Login
+
+Now, what about the Version 2 Authentication? The API endpoint **https://api.refinitiv.com/auth/oauth2/v2/token** (please be noticed **v2**) requires the following access credential information:
 
 - client_id ID: The Service ID (aks Service User). 
 - client_secret: Password associated with the Service user.
@@ -337,7 +341,7 @@ ld.open_session()
 
 The code looks exactly the same as the Version 1 Authentication setting. Developers can just change a configuration file without a need to modify source code.
 
-### Authentication Version 2 - Refresh Login
+### Version 2 Authentication - Refresh Login
 
 Unlike the Version 1 Authentication, the Version 2 Authentication does not use a refresh grant logic. If the application needs a refreshing token, the application can just re-send a new authentication request (with ```grant_type``` of **client_credentials** ) to the RDP endpoint.
 
@@ -349,7 +353,7 @@ An application can just use the same login request code to refresh an access tok
 
 Like the Version 1 Authentication, once an application calls ```ld.open_session()``` method, the library maintains and refreshes access token for an application.
 
-### Authentication Version 2 - Revoke Login
+### Version 2 Authentication - Revoke Login
 
 The Version 2 Authentication aims for the Real-Time Optimized (RTO) streaming consumers which requires long lasting connection scenario, so the it does not need to revoke access token. 
 
@@ -365,7 +369,7 @@ That is all for the session management code.
 
 ## <a id="rdp_get_data"></a>Requesting Data from RDP APIs
 
-After login and open a session with the RDP platform, an application can request data from the platform.
+Now we come to data requesting process. After login and open a session with the RDP platform, an application can request data from the platform.
 
 #### Direct RDP APIs call with Python/requests 
 
@@ -415,6 +419,8 @@ An application can parse the JSON data above to interpret or process data based 
 
 ### Data Library - Access Layer
 
+Let me start by using the simplest Data Library API Interface, the Access Layer.
+
 The Access Layer is the easiest way to retrieve LSEG data. It is a set of simplified API interfaces allowing developers to quickly prototype solutions in interactive environments such as Python Jupyter Notebook. The functions and objects of Access Layer are dedicated to Financial Coders. 
 
 #### Access Layer - Historical Pricing Interday Data
@@ -450,12 +456,13 @@ You may be noticed that the response data format is different from the direct RD
 
 Please see the [requests_news.py](./src/requests_news.py) and [ld_access_news.py](./src/ld_access_news.py) for other direct Python requests call and Data Library Access Layer comparison for News data.
 
-Please see more detail regarding the Access Layer classes in [Access Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/1.Access).
+Please see more detail regarding the Access Layer classes in [Access Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples), [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/1.Access) and [The Data Library for Python  - Quick Reference Guide (Access layer)](https://developers.lseg.com/en/article-catalog/article/the-data-library-for-python-quick-reference-guide-access-layer).
 
+That covers the basics of the Data Library Access Layer.
 
 #### Direct RDP APIs call with Python/requests - ESG Data
 
-To get the ESG (Environmental, Social, and Governance) standard measures data, an application must send a HTTP request message to the RDP **/data/environmental-social-governance/{{RDP_VERSION_ESG}}/views/scores-standard?universe={{SYMBOL}}** URL as follows.
+The next RDP content that I am going to demonstrate is the ESG service. To get the ESG (Environmental, Social, and Governance) standard measures data, an application must send a HTTP request message to the RDP **/data/environmental-social-governance/{{RDP_VERSION_ESG}}/views/scores-standard?universe={{SYMBOL}}** URL as follows.
 
 ```Python
 esg_url = f'{RDP_HOST}/data/environmental-social-governance/v2/views/scores-standard'
@@ -479,7 +486,7 @@ The result is JSON message format as follows
 
 ### Data Library - Content Layer
 
-The Content layer refers to logical market data objects, representing financial items like level 1 market data prices and quotes, News, Historical Pricing, Bond Analytics, Environmental & Social Governance (ESG)  and so on. These objects are built on top of the Delivery layer and provide value-add capabilities to manage and access the content within the interface.
+That brings us to other Layer that the library provides for developers, the Content Layer. The Content layer refers to logical market data objects, representing financial items like level 1 market data prices and quotes, News, Historical Pricing, Bond Analytics, Environmental & Social Governance (ESG)  and so on. These objects are built on top of the Delivery layer and provide value-add capabilities to manage and access the content within the interface.
 
 The Content Layer lets developer choose to get returns data in JSON structured messages or user-friendly Pandas DataFrame for Python based on their requirements.
 
@@ -487,7 +494,7 @@ The Content layer can easily be used by both professional developers and financi
 
 #### Content Layer - ESG Data
 
-To get the ESG data, the Content Layer offers the **esg** class and its methods for developers.
+The Content Layer offers the **esg** class and its methods for developers to access ESG data.
 
 The following code shows to get ESG standard measures with the Data Library Content Layer.
 
@@ -523,9 +530,13 @@ You see that even the Content Layer is just a little bit complex than the Access
 
 The Content Layer also supports more application operation modes such as Asynchronous/Event-Driven, the real-time Streaming requests for Level 1 Market Price data, IPA, Searching, Symbology, etc. Please see more detail regarding the Content Layer in [Content Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/2-Content) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/2.Content).
 
+That’s all I have to say about the Content Layer.
+
 ### Data Library - Delivery Layer
 
-LSEG is developing the library and hope to offer Access and Content Layers support for other data content. In the meantime, the Libraries also let developers access to a wide range of content that not available in Access and Content Layers yet with the Delivery Layer. 
+Now let me move on to the final Layer, the Delivery Layer.
+
+LSEG is developing the library and hope to offer Access and Content Layers support for other data content. In the meantime, the Library also lets developers access to a wide range of content that not available in Access and Content Layers yet with the Delivery Layer. 
 
 The Layer provides objects for developers to interact with the Delivery Platform (formerly Refinitiv Data Platform) service through the following delivery modes:
 
@@ -540,9 +551,11 @@ The Delivery Layer is the low-level API interfaces that targets developers who n
 
 This layer targets professional developers but can also be used by financial coders with good programming skills. Please be noticed that developers needs to check the RDP platform services from the RDP [API Playground page](https://apidocs.refinitiv.com/Apps/ApiDocs) page.
 
-#### Delivery Layer - Endpoint Feature 
+#### Delivery Layer - Endpoint Request Class 
 
-The RDP APIs let developers indicates whether a date is a working day via the **https://api.refinitiv.com/analytics/functions/v1/common/is-working-day** API endpoint. The Python/requests direct code should be simple to set HTTP POST message to the endpoint. However, the Delivery - Layer Endpoint feature helps developers to interact with the RDP APIs HTTP request in a easiest way.
+One of the objects provided by the Delivery Layer is the **Endpoint Request** class. It is a wrapper around the Request (HTTP Request/Response) delivery mechanism of the RDP APis. It is designed as the lowest abstraction layer that allows the retrieval of raw data from Delivery Platform API.
+
+I am demonstrating with the **https://api.refinitiv.com/analytics/functions/v1/common/is-working-day** API endpoint which lets developers check if a date is a working day of requested Country. The Python/requests direct code should be simple to set HTTP POST message to the endpoint. However, the Delivery - Layer Endpoint class helps developers to interact with the RDP APIs HTTP request in a easiest way.
 
 ```python
 from lseg.data.delivery import endpoint_request
@@ -566,4 +579,47 @@ print('This is a IS-Working-Day data result from Data Library - Delivery Layer -
 print(response.data.raw)
 ```
 
-[tbd]
+The code above checks if 12th February 2025 is Thailand public holiday (it is [Makha Bucha Day](https://en.wikipedia.org/wiki/M%C4%81gha_P%C5%ABj%C4%81)). 
+
+This **/analytics/functions/v1/common/is-working-day** supports HTTP POST method, so the Python/requests should be easy to code. However, the Library's Delivery Layer Endpoint class lets developers create a HTTP POST request message in an easiest way. An application can send a POST message payload via the Endpoint's ```body_parameters``` attribute.
+
+The data response of the Endpoint class is in JSON message format which developers can parse and transform to other format if need.
+
+![figure-9](images/ld_delivery_1.png "result from RDP /analytics/functions/v1/common/is-working-day")
+
+Next, I am demonstrating how to use the Endpoint object with the RDP service that uses HTTP GET method. The API is **data/historical-pricing/v1/views/events/{universe}** endpoint which can be used via Access or Content Layer. However, the code with Delivery Layer is not much harder than those high-levels layer API interface.
+
+
+```python
+historical_url = 'https://api.refinitiv.com/data/historical-pricing/v1/views/events/{universe}'
+
+request = ld.delivery.endpoint_request.Definition(
+    url = historical_url,
+    method= ld.delivery.endpoint_request.RequestMethod.GET,
+    path_parameters={'universe':'IBM.N'},
+    body_parameters= {
+        'eventTypes': 'trade,correction',
+        'adjustments': 'exchangeCorrection,manualCorrection'
+}
+)
+
+response = request.get_data()
+print('This is a Historical Pricing Event data result from Data Library - Delivery Layer - Endpoint method')
+print(response.data.raw)
+```
+
+The code above sends a HTTP request message to the RDP endpoint via the GET method. The ```path_parameters``` attribute is for setting the parameters that can be added to the endpoint URL (```/data/historical-pricing/v1/views/events/{universe}```) . The ```body_parameters``` attribute is for setting the query parameters for the HTTP request.
+
+The result will be in the JSON message format similar to the direct Python/requests approach as follows:
+
+![figure-10](images/ld_delivery_2.png "result from RDP /data/historical-pricing/v1/views/events/")
+
+As I has mentioned at the beginning of this section, the Delivery Layer does not has only Endpoint object. It also has other objects like the OMM Stream, RDP Stream, Bulk, etc. which can helps developers archive specific tasks that cannot be done with the Access and Content Layers.
+
+Developers can find more detail about the Delivery Layer from [Delivery Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/3-Delivery) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/3.Delivery)
+
+The Content Layer also supports more application operation modes such as Asynchronous/Event-Driven, the real-time Streaming requests for Level 1 Market Price data, IPA, Searching, Symbology, etc. Please see more detail regarding the Content Layer in [Content Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/2-Content) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/2.Content).
+
+The reference guide of all Data Library layers and API interfaces are available on the [Developer Portal]([Data Library for Python - Reference Guide](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python/documentation#reference-guide)).
+
+That covers the Data Library and direct Python requests code comparison for the RDP platform applications.

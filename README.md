@@ -181,7 +181,10 @@ On the other hand, the Delivery Platform APIs (RDP) let developers manual contro
 For further details, please check out the following resources:
 
 - [LSEG Data Library for Python](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python) on the [LSEG Developer Community](https://developers.lseg.com/) website.
+- [Data Library for Python - Reference Guide](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python/documentation#reference-guide)
 - [RDP APIs page](https://developers.lseg.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-platform-apis).
 - [RDP APIs document page](https://apidocs.refinitiv.com/Apps/ApiDocs).
+- [The Data Library for Python  - Quick Reference Guide (Access layer)](https://developers.lseg.com/en/article-catalog/article/the-data-library-for-python-quick-reference-guide-access-layer) article.
+- [Essential Guide to the Data Libraries - Generations of Python library (EDAPI, RDP, RD, LD)](https://developers.lseg.com/en/article-catalog/article/essential-guide-to-the-data-libraries) article.
 
 For any question related to the products on this page, please use the Developers Community [Q&A Forum](https://community.developers.refinitiv.com).
