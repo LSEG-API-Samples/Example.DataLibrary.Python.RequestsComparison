@@ -8,7 +8,7 @@
 
 ## <a id="introduction"></a>Introduction
 
-This project is forked from my old [Comparison of RDP Libraries for Python VS Python/requests direct call for Refinitiv Data Platform](https://github.com/LSEG-API-Samples/Example.RDPLibrary.Python.RequestsComparison) project because the library is outdated. This project aims to use the strategic [LSEG Data Library for Python](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python).
+This project is forked from my old [Comparison of RDP Libraries for Python VS Python/requests direct call for the Delivery  Platform (RDP)](https://github.com/LSEG-API-Samples/Example.RDPLibrary.Python.RequestsComparison) project because the library is outdated. This project aims to use the strategic [LSEG Data Library for Python](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python).
 
 The [Delivery Platform (RDP) APIs](https://developers.lseg.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-platform-apis) (formerly known as Refinitiv Data Platform) provide various LSEG data and content for developers via easy to use Web base API. The developers which are data scientist, financial coder or trader can use any programming languages that support HTTP request-response and JSON message to retrieve content from RDP in a straightforward way. An example use case are data scientists or trader use [Python language](https://www.python.org/) with the [requests library](https://requests.readthedocs.io/en/master/) to get data from RDP and visualize that data in [Jupyter Notebook](https://jupyter.org/) application.
 
