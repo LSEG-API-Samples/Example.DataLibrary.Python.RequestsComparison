@@ -22,6 +22,19 @@ refresh_token = None
 expires_in = 0
 
 def login_v1(username, password, app_key):
+    """
+    This method sends a HTTP login request message to RDP Authentication Service V1.
+
+    Args:
+        username (str): The RDP Username/Machine-ID
+        password (str): The RDP Password
+        app_key (str): The App-Key
+
+     Returns: 
+        access token (str): The Access Token
+        refresh token (str): The Refresh Token 
+        expires_in (str): The expires_in value
+    """
     global RDP_HOST
     if not username or not password or not app_key:
         raise TypeError('Missing required parameters')
@@ -31,6 +44,7 @@ def login_v1(username, password, app_key):
     # For the Password Grant scenario
     payload=f'username={username}&password={password}&grant_type=password&scope={scope}&takeExclusiveSignOnControl=true&client_id={app_key}'
 
+    # Send HTTP request
     try:
        response = requests.post(auth_url, 
                                  data=payload, 
@@ -50,6 +64,18 @@ def login_v1(username, password, app_key):
         raise requests.exceptions.HTTPError(f'RDP authentication failure: {response.status_code} - {response.text} ', response = response )
     
 def refresh_login_v1(refresh_token, app_key):
+    """
+    This method sends a HTTP refresh login request message to RDP Authentication Service V1.
+
+    Args:
+        refresh_token (str): The refresh token
+        app_key (str): The App-Key
+
+    Returns: 
+        access token (str): The Access Token
+        refresh token (str): The Refresh Token 
+        expires_in (str): The expires_in value
+    """
     global RDP_HOST
     if not refresh_token or not app_key:
         raise TypeError('Missing required parameters')
@@ -59,6 +85,7 @@ def refresh_login_v1(refresh_token, app_key):
     # For the Refresh Grant scenario
     payload=f'grant_type=refresh_token&client_id={app_key}&refresh_token={refresh_token}'
 
+    # Send HTTP request
     try:
        response = requests.post(auth_url, 
                                  data=payload, 
@@ -79,6 +106,16 @@ def refresh_login_v1(refresh_token, app_key):
 
     
 def logout(app_key, access_token):
+    """
+    This method sends a HTTP revoke request message to RDP Authentication Service V1.
+
+    Args:
+        app_key (str): The App-Key
+        access_token (str): The access token
+
+    Returns: 
+        None
+    """
     global RDP_HOST
 
     app_key_bytes = app_key.encode('ascii')
@@ -89,6 +126,7 @@ def logout(app_key, access_token):
 
     payload = f'token={access_token}'
 
+    # Send HTTP request
     try:
         response = requests.post(auth_url,
                                  data = payload,

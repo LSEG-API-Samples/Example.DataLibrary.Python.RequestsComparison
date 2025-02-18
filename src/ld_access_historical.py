@@ -9,11 +9,21 @@ import lseg.data as ld
 from lseg.data import session
 
 def get_historical_interday_data(universe, fields):
+    """
+    This method sends a request message to RDP Historical Pricing service to get Interday data with the Data Library Access Layer.
+
+    Args:
+        universe (str): RIC Code
+
+    Returns: 
+        interday data (Pandas Dataframe): Interday data in DataFrame object
+    """
     # Time Variables
     interval = 'weekly' #weekly
     start_day = '2025-01-01'
     end_day = '2025-02-10'
 
+    # Send request message
     df = ld.get_history(universe=universe,
                         interval=interval, 
                         fields=fields,

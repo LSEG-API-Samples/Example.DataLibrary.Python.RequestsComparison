@@ -10,7 +10,16 @@ from lseg.data.content import esg
 from lseg.data import session
 
 def get_esg_standard(universe):
+    """
+    This method sends a request message to RDP ESG service with the Data Library Content Layer and print data on a console.
 
+    Args:
+        universe (str): RIC Code
+
+    Returns: 
+        None
+    """
+    # Send request message
     response = esg.standard_scores.Definition(universe).get_data()
 
     print('This is an ESG data result from Data Library - Content Layer - esg.standard_scores')

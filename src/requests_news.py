@@ -21,6 +21,19 @@ refresh_token = None
 expires_in = 0
 
 def login_v1(username, password, app_key):
+    """
+    This method sends a HTTP login request message to RDP Authentication Service V1.
+
+    Args:
+        username (str): The RDP Username/Machine-ID
+        password (str): The RDP Password
+        app_key (str): The App-Key
+
+     Returns: 
+        access token (str): The Access Token
+        refresh token (str): The Refresh Token 
+        expires_in (str): The expires_in value
+    """
     global RDP_HOST
 
     if not username or not password or not app_key:
@@ -50,7 +63,16 @@ def login_v1(username, password, app_key):
         raise requests.exceptions.HTTPError(f'RDP authentication failure: {response.status_code} - {response.text} ', response = response )
     
 def logout(app_key, access_token):
+    """
+    This method sends a HTTP revoke request message to RDP Authentication Service V1.
 
+    Args:
+        app_key (str): The App-Key
+        access_token (str): The access token
+
+    Returns: 
+        None
+    """
     global RDP_HOST
 
     app_key_bytes = app_key.encode('ascii')
@@ -79,13 +101,23 @@ def logout(app_key, access_token):
         print(f'Text: {response.text}')
 
 def get_news_headlines(universe, access_token):
+    """
+    This method sends a HTTP request message to RDP News Service for getting news headlines
 
+    Args:
+        universe (str): RIC Code
+        access_token (str): The access token
+
+    Returns: 
+        news headlines (json): The News Headlines content
+    """
     global RDP_HOST
 
     # https://api.refinitiv.com/data/news/v1/headlines?query={{query}}
     headlines_url = f'{RDP_HOST}/data/news/v1/headlines'
     payload = {'query': f'R:{universe} AND Language:LEN AND Source:RTRS','limit':5}
-
+    
+    # Send HTTP request
     try:
         response = requests.get(url= headlines_url,
                                 headers= {
@@ -106,12 +138,22 @@ def get_news_headlines(universe, access_token):
         print(f'Text: {response.text}')
 
 def get_news_story(story_id, access_token):
+    """
+    This method sends a HTTP request message to RDP News Service for getting news story and print it on a console.
 
+    Args:
+        story_id (str): Story ID code from news headlines
+        access_token (str): The access token
+
+    Returns: 
+        None
+    """
     global RDP_HOST
 
     # https://api.refinitiv.com/data/news/v1/stories/{{story_id}}
     story_url = f'{RDP_HOST}/data/news/v1/stories/{story_id}'
 
+    # Send HTTP request
     try:
         response = requests.get(url= story_url,
                                 headers= {

@@ -23,6 +23,17 @@ expires_in = 0
 
 
 def login_v2(client_id, client_secret):
+    """
+    This method sends a HTTP login request message to RDP Authentication Service V2.
+
+    Args:
+        client_id (str): The RDP Client-ID (Service ID)
+        client_secret (str): The RDP Client-Secret
+
+     Returns: 
+        access token (str): The Access Token
+        expires_in (str): The expires_in value
+    """
     global RDP_HOST
     if not client_secret or not client_id:
         raise TypeError('Missing required parameters')
@@ -31,6 +42,7 @@ def login_v2(client_id, client_secret):
 
     payload=f'client_id={client_id}&client_secret={client_secret}&grant_type=client_credentials&scope={scope}'
 
+    # Send HTTP request
     try:
         response = requests.post(auth_url, 
                                  data=payload, 

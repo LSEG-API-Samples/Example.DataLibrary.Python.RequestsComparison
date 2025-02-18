@@ -13,7 +13,18 @@ from lseg.data.content.historical_pricing import Adjustments
 from lseg.data.content.historical_pricing import EventTypes
 
 def get_historical_interday_data(universe, fields):
+    """
+    This method sends a request message to RDP Historical Pricing (Interday) service with the DData Library Content Layer and print data on a console.
 
+    Args:
+        universe (str): RIC Code
+        fields (list of str): List of interested Field names
+
+    Returns: 
+        None
+    """
+
+    # Send request message
     response = historical_pricing.summaries.Definition(
         universe=universe,
         interval= Intervals.WEEKLY,
@@ -24,7 +35,16 @@ def get_historical_interday_data(universe, fields):
     print(response.data.df)
 
 def get_historical_event_data(universe):
+    """
+    This method sends a request message to RDP Historical Pricing (event) service with the Data Library Content Layer and print data on a console.
 
+    Args:
+        universe (str): RIC Code
+
+    Returns: 
+        None
+    """
+    # Send request message
     response = historical_pricing.events.Definition(
         universe=universe,
         eventTypes= [EventTypes.TRADE, EventTypes.CORRECTION],

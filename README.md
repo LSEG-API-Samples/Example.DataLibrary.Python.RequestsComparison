@@ -186,5 +186,6 @@ For further details, please check out the following resources:
 - [RDP APIs document page](https://apidocs.refinitiv.com/Apps/ApiDocs).
 - [The Data Library for Python  - Quick Reference Guide (Access layer)](https://developers.lseg.com/en/article-catalog/article/the-data-library-for-python-quick-reference-guide-access-layer) article.
 - [Essential Guide to the Data Libraries - Generations of Python library (EDAPI, RDP, RD, LD)](https://developers.lseg.com/en/article-catalog/article/essential-guide-to-the-data-libraries) article.
+- [Data Library for Python Examples on GitHub](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python) repository.
 
 For any question related to the products on this page, please use the Developers Community [Q&A Forum](https://community.developers.refinitiv.com).

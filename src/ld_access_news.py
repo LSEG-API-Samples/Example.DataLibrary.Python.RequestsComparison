@@ -9,12 +9,21 @@ import lseg.data as ld
 from lseg.data import session
 
 def get_news_headlines(universe):
+    """
+    This method sends a request message to RDP News service to get news headlines data with the Data Library Access Layer.
 
+    Args:
+        universe (str): RIC Code
+
+    Returns: 
+        news headlines (Pandas Dataframe): News Headlines data in DataFrame object
+    """
     start_day = '2025-01-01'
     end_day = '2025-02-10'
 
     query = f'R:{universe} AND Language:LEN AND Source:RTRS'
 
+    # Send request message
     df = ld.news.get_headlines(query, start=start_day, end=end_day, count=5)
 
     print('This is a News headlines from Data Library - Access Layer - get_headlines')
@@ -22,7 +31,16 @@ def get_news_headlines(universe):
     return df
 
 def get_news_story(story_id):
+    """
+    This method sends a request message to RDP News service to get news story data with the Data Library Access Layer.
 
+    Args:
+        story_id (str): Story ID code from news headlines.
+
+    Returns: 
+        None.
+    """
+    # Send request message
     story = ld.news.get_story(story_id, format=ld.news.Format.TEXT)
     print(f'This is a News story from Data Library - Access Layer - get_story for {story_id}')
     print(story)
