@@ -32,7 +32,7 @@ def login_v1(username, password, app_key):
      Returns: 
         access token (str): The Access Token
         refresh token (str): The Refresh Token 
-        expires_in (str): The expires_in value
+        expires_in (int): The expires_in value
     """
     global RDP_HOST
 

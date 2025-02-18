@@ -32,7 +32,7 @@ def login_v2(client_id, client_secret):
 
      Returns: 
         access token (str): The Access Token
-        expires_in (str): The expires_in value
+        expires_in (int): The expires_in value
     """
     global RDP_HOST
     if not client_secret or not client_id:
