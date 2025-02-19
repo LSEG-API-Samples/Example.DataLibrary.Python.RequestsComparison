@@ -618,6 +618,6 @@ As I has mentioned at the beginning of this section, the Delivery Layer does not
 
 Developers can find more detail about the Delivery Layer from [Delivery Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/3-Delivery) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/3.Delivery)
 
-The reference guide of all Data Library layers and API interfaces are available on the [Developer Portal]([Data Library for Python - Reference Guide](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python/documentation#reference-guide)).
+The reference guide of all Data Library layers and API interfaces are available on the Developer Portal [Data Library for Python - Reference Guide](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python/documentation#reference-guide) article.
 
 That covers the Data Library and direct Python requests code comparison for the RDP platform applications.
