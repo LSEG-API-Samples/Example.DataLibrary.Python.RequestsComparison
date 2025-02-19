@@ -456,7 +456,7 @@ You may be noticed that the response data format is different from the direct RD
 
 Please see the [requests_news.py](./src/requests_news.py) and [ld_access_news.py](./src/ld_access_news.py) for other direct Python requests call and Data Library Access Layer comparison for News data.
 
-Please see more detail regarding the Access Layer classes in [Access Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples), [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/1.Access) and [The Data Library for Python  - Quick Reference Guide (Access layer)](https://developers.lseg.com/en/article-catalog/article/the-data-library-for-python-quick-reference-guide-access-layer).
+Please see more detail regarding the Access Layer classes in [Access Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples), [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/1.Access) and [The Data Library for Python  - Quick Reference Guide (Access layer)](https://developers.lseg.com/en/article-catalog/article/the-data-library-for-python-quick-reference-guide-access-layer) article.
 
 That covers the basics of the Data Library Access Layer.
 
@@ -587,7 +587,7 @@ The data response of the Endpoint class is in JSON message format which develope
 
 ![figure-9](images/ld_delivery_1.png "result from RDP /analytics/functions/v1/common/is-working-day")
 
-Next, I am demonstrating how to use the Endpoint object with the RDP service that uses HTTP GET method. The API is **data/historical-pricing/v1/views/events/{universe}** endpoint which can be used via Access or Content Layer. However, the code with Delivery Layer is not much harder than those high-levels layer API interface.
+Next, I am demonstrating how to use the Endpoint object with the RDP service that uses HTTP GET method. The API is **/data/historical-pricing/v1/views/events/{universe}** endpoint which can be used via Access or Content Layer. However, the code with Delivery Layer is not much harder than those high-levels layer API interface.
 
 
 ```python
@@ -617,8 +617,6 @@ The result will be in the JSON message format similar to the direct Python/reque
 As I has mentioned at the beginning of this section, the Delivery Layer does not has only Endpoint object. It also has other objects like the OMM Stream, RDP Stream, Bulk, etc. which can helps developers archive specific tasks that cannot be done with the Access and Content Layers.
 
 Developers can find more detail about the Delivery Layer from [Delivery Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/3-Delivery) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/3.Delivery)
-
-The Content Layer also supports more application operation modes such as Asynchronous/Event-Driven, the real-time Streaming requests for Level 1 Market Price data, IPA, Searching, Symbology, etc. Please see more detail regarding the Content Layer in [Content Layer examples](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Examples/2-Content) and [Tutorials](https://github.com/LSEG-API-Samples/Example.DataLibrary.Python/tree/lseg-data-examples/Tutorials/2.Content).
 
 The reference guide of all Data Library layers and API interfaces are available on the [Developer Portal]([Data Library for Python - Reference Guide](https://developers.lseg.com/en/api-catalog/lseg-data-platform/lseg-data-library-for-python/documentation#reference-guide)).
 
